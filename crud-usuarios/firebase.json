@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "crud-usuarios-angular-sophia",
+    "public": "dist/crud-usuarios",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

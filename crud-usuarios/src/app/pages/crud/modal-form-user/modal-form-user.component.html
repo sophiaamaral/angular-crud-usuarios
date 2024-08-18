@@ -1,0 +1,69 @@
+<div class="container-fluid p-3">
+    <mat-icon class="float-end hover" (click)="closeModal()">close</mat-icon>
+
+    <h1 class="titulo" *ngIf="editUser">Editar Usuário</h1>
+    <h1 class="titulo" *ngIf="!editUser">Cadastrar Usuário</h1>
+    <h2 class="subtitulo">Preencha o formulário para salvar o usuário</h2>
+
+    <form class="row" [formGroup]="formUser">
+
+        <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Nome</mat-label>
+                <input type="text" matInput formControlName="name" placeholder="Digite seu nome">
+                <!-- Se o campo name não seguir as validações que estão definidas na função buildForm do typescript -->
+                <mat-error *ngIf="formUser.controls['name'].invalid">Por favor digite um nome válido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="email" placeholder="Digite o email">
+                <!-- Se o campo name não seguir as validações que estão definidas na função buildForm do typescript -->
+                <mat-error *ngIf="formUser.controls['email'].invalid">Por favor digite um email válido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Setor</mat-label>
+                <input type="text" matInput formControlName="sector" placeholder="Digite o setor">
+                <!-- Se o campo name não seguir as validações que estão definidas na função buildForm do typescript -->
+                <mat-error *ngIf="formUser.controls['sector'].invalid">Por favor digite um setor válido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Cargo</mat-label>
+                <input type="text" matInput formControlName="role" placeholder="Digite o cargo">
+                <!-- Se o campo name não seguir as validações que estão definidas na função buildForm do typescript -->
+                <mat-error *ngIf="formUser.controls['role'].invalid">Por favor digite um cargo válido</mat-error>
+            </mat-form-field>
+        </div>
+        <!-- Beneficios - Select -->
+         <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="w-100">
+                <mat-label> <mat-icon>favorite</mat-icon> Plano de Saúde</mat-label>
+                <mat-select formControlName="healthPlan">
+                  @for (plano of planosSaude; track plano) {
+                    <mat-option [value]="plano.descricao">{{plano.descricao}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+         </div>
+         <div class="col-12 col-md-6 mb-2">
+            <mat-form-field class="w-100">
+                <mat-label> <mat-icon>favorite</mat-icon> Plano Odontologico</mat-label>
+                <mat-select formControlName="dentalPlan">
+                    <mat-option *ngFor="let planoO of planosOdonto" [value]="planoO.descricao">{{planoO.descricao}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+         </div>
+         <div class="col-12">
+            <!-- Quando o formulario não for valido desabilita o botão -->
+            <button class="botao-primario float-end" [disabled]="!formUser.valid" (click)="saveUser()">Salvar usuário</button>
+         </div>
+    </form>
+</div>

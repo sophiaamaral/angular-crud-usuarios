@@ -1,0 +1,83 @@
+<app-menu></app-menu>
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="titulo">Cadastro de Usuários</h1>
+            <h2 class="subtitulo">Gerencie usuários, adicionando, editando ou excluindo</h2>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <app-button class="float-end" textButton="+ cadastrar" (click)="openModalAddUser()"></app-button>
+
+            <mat-form-field>
+                <mat-label>Busca por usuários</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Digite sua busca" #input>
+            </mat-form-field>
+
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort>
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                  <td class="td-table" mat-cell *matCellDef="let user"> {{user.firebaseId}} </td>
+                </ng-container>
+            
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                  <td class="td-table" mat-cell *matCellDef="let user"> {{user.name}} </td>
+                </ng-container>
+            
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                  <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                  <td class="td-table" mat-cell *matCellDef="let user"> {{user.email}} </td>
+                </ng-container>
+            
+                <!-- Role Column -->
+                <ng-container matColumnDef="role">
+                  <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Cargo </th>
+                  <td class="td-table" mat-cell *matCellDef="let user"> {{user.role}} </td>
+                </ng-container>
+
+                <!-- Benefits Column -->
+                <ng-container matColumnDef="benefits">
+                    <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Benefícios </th>
+                    <td class="td-table" mat-cell *matCellDef="let user">  
+                        <!-- Se o usuario tiver algum tipo de beneficio aparece o icone check -->
+                        <mat-icon class="c-primary" *ngIf="user.healthPlan || user.dentalPlan">check</mat-icon>
+                        <!-- Se o usuario não tiver nenhum beneficio aparece o icone remove -->
+                        <mat-icon class="c-error" *ngIf="!user.healthPlan && !user.dentalPlan">remove</mat-icon>
+
+                        <!-- If no Angular 17
+                         @if (user.healthPlan || user.dentalPlan){
+                            <mat-icon class="c-primary">check</mat-icon>
+                        } -->
+                    </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                    <td class="td-table" mat-cell *matCellDef="let user"> 
+                        <mat-icon class="icone-table" (click)="openModalViewUser(user)">visibility</mat-icon>
+                        <mat-icon class="icone-table" (click)="openModalEditUser(user)">edit</mat-icon>
+                        <!-- dblclick serve para o usuario ter que dar 2 cliques -->
+                        <mat-icon class="icone-table" (dblclick)="deleteUser(user.firebaseId)">delete</mat-icon>
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            
+                Row shown when there is no matching data.
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell no-data" colspan="4">Não foram encontrados dados para a pesquisa: "{{input.value}}"</td>
+                </tr>
+              </table>
+            
+              <mat-paginator class="shadow-sm" [pageSizeOptions]="[3, 5, 7]" aria-label="Selecione usuários por página"></mat-paginator>
+        </div>
+    </div>
+</div>
